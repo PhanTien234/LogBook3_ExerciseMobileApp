@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="New User"
+        android:textColor="#000"
+        android:fontFamily="@font/cassadia"
+        android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bahnschrift"
+            android:text="@string/name"
+            android:textColor="#58667F"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/nameText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/input_border"
+            android:fontFamily="@font/bahnschrift"
+            android:hint="Type your Name"
+            android:inputType="text"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/dob"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="#58667F"
+            android:text="@string/dob"
+            android:fontFamily="@font/bahnschrift"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/date_picker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:textColor="#58667F"
+            android:fontFamily="@font/bahnschrift"
+            android:background="@drawable/input_border"
+            android:hint="dd/MM/yyyy"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="#58667F"
+            android:fontFamily="@font/bahnschrift"
+            android:textSize="20sp"
+            android:text="@string/email" />
+
+        <EditText
+            android:id="@+id/emailText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_border"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:inputType="text"
+            android:hint="Type Your Email" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="#58667F"
+            android:fontFamily="@font/bahnschrift"
+            android:textSize="20sp"
+            android:text="@string/phone" />
+
+        <EditText
+            android:id="@+id/phoneText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_border"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:inputType="number"
+            android:hint="Phone number" />
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/emailText"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/imageView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/defaultimage"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="4dp">
+
+        <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:onClick="onNextButtonClick"
+            android:rotation="180"
+            android:background="#00ffffff"
+            android:src="@drawable/navigate_next"/>
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="#00ffffff"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:onClick="onNextButtonClick"
+            android:src="@drawable/navigate_next"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="40dp"
+        android:gravity="center"
+        android:layout_margin="4dp"
+        >
+        <Button
+            android:id="@+id/saveDetailsButton"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Save Details" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"/>
+        <Button
+            android:id="@+id/viewDetailsButton"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="View Details" />
+    </LinearLayout>
+</LinearLayout>
