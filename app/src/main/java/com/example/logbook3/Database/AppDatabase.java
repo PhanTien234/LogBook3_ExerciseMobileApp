@@ -1,10 +1,6 @@
 package com.example.logbook3.Database;
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.logbook3.Dao.UserDao;
 import com.example.logbook3.Models.User;
