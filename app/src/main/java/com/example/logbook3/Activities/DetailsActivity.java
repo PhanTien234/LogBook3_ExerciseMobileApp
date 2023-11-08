@@ -8,7 +8,7 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.logbook3.Database.AppDatabase;
 import com.example.logbook3.Models.User;
@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements ContactAdapter.OnDeleteClickListener {
     private AppDatabase appDatabase;
     private RecyclerView recyclerView;
     private ContactAdapter adapter;
@@ -37,7 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         users = appDatabase.userDao().getAllUsers();
-        adapter = new ContactAdapter(users);
+        adapter = new ContactAdapter(users,this);
         recyclerView.setAdapter(adapter);
 
         floatingAdd = findViewById(R.id.floatingActionButton2);
@@ -51,4 +51,16 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onDeleteClick(User user) {
+        // Delete the user from the database
+        appDatabase.userDao().deleteUser(user);
+
+        // Update the RecyclerView after deletion
+        users.remove(user);
+        adapter.notifyDataSetChanged();
+
+        Toast.makeText(this, "User deleted", Toast.LENGTH_SHORT).show();
+    }
+
 }

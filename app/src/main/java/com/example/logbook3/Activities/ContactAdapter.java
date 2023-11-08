@@ -3,6 +3,7 @@ package com.example.logbook3.Activities;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,23 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.logbook3.Models.User;
 import com.example.logbook3.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
-    private List<User> users;
-    private OnDeleteClickListener onDeleteClickListener;
+    private static List<User> users;
+    private static OnDeleteClickListener onDeleteClickListener;
     public interface OnDeleteClickListener {
-        void onDeleteClick(User person);
+        void onDeleteClick(User user);
     }
     public ContactAdapter(List<User> users, OnDeleteClickListener onDeleteClickListener) {
         this.users = users;
         this.onDeleteClickListener = onDeleteClickListener;
-    }
-    public ContactAdapter(List<User> users) {
-        this.users = users;
     }
 
     @NonNull
@@ -51,6 +50,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                 onDeleteClickListener.onDeleteClick(users.get(position));
             }
         });
+
     }
 
     @Override
@@ -61,6 +61,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView userName, userDob, userEmail, userPhone;
         GifImageView userImage;
+        ImageButton deleteButton;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +70,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             userEmail = itemView.findViewById(R.id.userEmail);
             userPhone = itemView.findViewById(R.id.userPhonetex);
             userImage = itemView.findViewById(R.id.imageView);
+            deleteButton = itemView.findViewById(R.id.DeleteEachItem);
+
+            deleteButton.setOnClickListener(v -> {
+                if (onDeleteClickListener != null) {
+                    onDeleteClickListener.onDeleteClick(users.get(getAdapterPosition()));
+                }
+            });
         }
     }
 

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TextView dateOfBirth;
     private GifImageView imageView;
     private List<Integer> imageResources;
-    private int currentImageIndex = -1;
+    private int currentImageIndex = 0;
     private AppDatabase appDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

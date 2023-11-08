@@ -15,6 +15,7 @@ public interface UserDao {
     Long insertUser(User user);
     @Query("SELECT * FROM users ORDER BY name")
     List<User> getAllUsers();
-    @Query("SELECT * FROM users where user_id = :id")
-    User getUserDetail(long id);
+    @Delete
+    void deleteUser(User user);
+
 }
