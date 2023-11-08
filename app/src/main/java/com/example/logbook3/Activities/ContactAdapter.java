@@ -14,6 +14,8 @@ import com.example.logbook3.R;
 
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
     private List<User> users;
     private OnDeleteClickListener onDeleteClickListener;
@@ -41,7 +43,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         holder.userName.setText(user.name);
         holder.userDob.setText(user.dob);
         holder.userEmail.setText(user.email);
-        holder.userImage.setImageResource(user.image);
+        holder.userPhone.setText(user.phoneNumber);
+        holder.userImage.setImageResource(user.imageResourceId);
+
         holder.itemView.setOnClickListener(v -> {
             if (onDeleteClickListener != null) {
                 onDeleteClickListener.onDeleteClick(users.get(position));
@@ -55,15 +59,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     }
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
-        TextView userName, userDob, userEmail;
-        ImageView userImage;
+        TextView userName, userDob, userEmail, userPhone;
+        GifImageView userImage;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.userName);
             userDob = itemView.findViewById(R.id.userDob);
             userEmail = itemView.findViewById(R.id.userEmail);
-            userImage = itemView.findViewById(R.id.userImage);
+            userPhone = itemView.findViewById(R.id.userPhonetex);
+            userImage = itemView.findViewById(R.id.imageView);
         }
     }
+
 }

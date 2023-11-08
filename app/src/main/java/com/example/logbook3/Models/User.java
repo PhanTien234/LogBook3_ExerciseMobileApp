@@ -9,5 +9,8 @@ public class User {
     public String name;
     public String dob;
     public String email;
-    public Integer image;
+    public int imageResourceId;
+
+    //new column
+    public String phoneNumber;
 }

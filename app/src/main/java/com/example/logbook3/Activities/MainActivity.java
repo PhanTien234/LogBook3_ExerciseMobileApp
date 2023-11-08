@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,17 +26,27 @@ import com.example.logbook3.Database.AppDatabase;
 import com.example.logbook3.Models.User;
 import com.example.logbook3.R;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
     TextView dateOfBirth;
+    private GifImageView imageView;
+    private List<Integer> imageResources;
+    private int currentImageIndex = -1;
     private AppDatabase appDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dateOfBirth = findViewById(R.id.date_picker);
-
+        imageView = findViewById(R.id.imageView);
+        imageResources = getImageResources();
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +73,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Method to update the displayed image
+    private void updateImage() {
+        int imageResourceId = imageResources.get(currentImageIndex);
+        imageView.setImageResource(imageResourceId);
+    }
+    // Button click handler for displaying the next image
+    public void onNextButtonClick(View view) {
+        if (currentImageIndex < imageResources.size() - 1) {
+            currentImageIndex++;
+        } else {
+            currentImageIndex = 0;
+        }
+        updateImage();
+    }
+    // Button click handler for displaying the previous image
+    public void onPreviousButtonClick(View view) {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+        } else {
+            currentImageIndex = imageResources.size() - 1;
+        }
+        updateImage();
+    }
+
+    // Method to dynamically get the list of image resources from the drawable folder
+    private List<Integer> getImageResources() {
+        List<Integer> imageResources = new ArrayList<>();
+        Field[] drawables = R.drawable.class.getFields();
+
+        TypedValue typedValue = new TypedValue();
+        for (Field field : drawables) {
+            try {
+                getResources().getValue(field.getInt(null), typedValue, true);
+                if (typedValue.string.toString().endsWith(".jpg")
+                        || typedValue.string.toString().endsWith(".png")
+                        || typedValue.string.toString().endsWith(".gif")) {
+                    int resourceId = field.getInt(null);
+                    imageResources.add(resourceId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return imageResources;
+    }
     public static class DatePickerFragment extends DialogFragment implements
             DatePickerDialog.OnDateSetListener {
         @NonNull
@@ -82,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateDateOfBirth(LocalDate dob){
         TextView dobControl = findViewById(R.id.date_picker);
-        dobControl.setText(dob.toString());
+        // Format the date in "dd/MM/yyyy" format
+        String formattedDate = dob.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dobControl.setText(formattedDate);
     }
 
     private  void viewDetails(){
@@ -90,54 +149,38 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private boolean isValidEmail(String email) {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
-        return email.matches(emailPattern);
-    }
 
     private void saveDetails() {
         EditText nameTxt = findViewById(R.id.nameText);
         TextView dateOfBirthTextView  = findViewById(R.id.date_picker);
         EditText emailTxt = findViewById(R.id.emailText);
-        RadioGroup radioGroup = findViewById(R.id.radioGroup);
-        int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-        RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-        String imageTag;
-        if (selectedRadioButton != null) {
-            imageTag = (String) selectedRadioButton.getTag();
-        } else {
-
-            Toast.makeText(this, "Please complete all Field before save",
-                    Toast.LENGTH_LONG
-            ).show();
-            return;
-        }
-        String packageName = getPackageName();
-        int imageValue = getResources().getIdentifier(imageTag, "drawable", packageName);
-
+        EditText phoneInput = findViewById(R.id.phoneText);
 
         String name = nameTxt.getText().toString();
         String dob = dateOfBirthTextView.getText().toString();
         String email = emailTxt.getText().toString();
+        String phoneNumber = phoneInput.getText().toString();
 
-        if(name.trim().isEmpty() || dob.trim().isEmpty() || email.trim().isEmpty()){
+        if(name.trim().isEmpty() || dob.trim().isEmpty() || email.trim().isEmpty() || phoneNumber.trim().isEmpty()){
             Toast.makeText(this, "Please complete all Field before save",
                     Toast.LENGTH_LONG
             ).show();
             return;
         }
-        if (!isValidEmail(email)) {
+        // Validate email using regex pattern
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
+        if (!email.matches(emailPattern)) {
             Toast.makeText(this, "Please enter a valid email address",
                     Toast.LENGTH_LONG
             ).show();
             return;
         }
-
         User user = new User();
         user.name = name;
         user.dob = dob;
         user.email = email;
-        user.image = imageValue;
+        user.phoneNumber = phoneNumber;
+        user.imageResourceId = imageResources.get(currentImageIndex); //Set the image resource ID
 
         appDatabase.userDao().insertUser(user);
 

@@ -17,7 +17,6 @@
             android:text="Contacts List"
             android:textColor="#000"
             android:fontFamily="@font/cassadia"
-
             android:textSize="40sp" />
 
         <androidx.recyclerview.widget.RecyclerView

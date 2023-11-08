@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.example.logbook3.Database.AppDatabase;
 import com.example.logbook3.Models.User;
 import com.example.logbook3.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
     private AppDatabase appDatabase;
     private RecyclerView recyclerView;
     private ContactAdapter adapter;
+    private FloatingActionButton floatingAdd;
     List<User> users;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,9 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "users")
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build();
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -37,16 +39,16 @@ public class DetailsActivity extends AppCompatActivity {
         users = appDatabase.userDao().getAllUsers();
         adapter = new ContactAdapter(users);
         recyclerView.setAdapter(adapter);
-        Button viewDetailsButton = findViewById(R.id.backButton);
-        viewDetailsButton.setOnClickListener(new View.OnClickListener() {
+
+        floatingAdd = findViewById(R.id.floatingActionButton2);
+        floatingAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                back();
+                //Handle the FloatingActionButton Click event here
+                Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
-    }
-    private  void back(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+
     }
 }
