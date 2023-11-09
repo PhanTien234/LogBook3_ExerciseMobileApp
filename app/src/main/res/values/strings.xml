@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Logbook3</string>
+    <string name="app_name">DiaryUser</string>
     <string name="name">Name<font color='#FF0000'>*</font></string>
     <string name="dob">DOB<font color='#FF0000'>*</font></string>
     <string name="email">Email<font color='#FF0000'>*</font></string>
